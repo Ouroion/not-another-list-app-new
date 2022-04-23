@@ -1,13 +1,57 @@
-# You can override the included template(s) by including variable overrides
-# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
-# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
-# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
-# Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
-# Note that environment variables can be set in several places
-# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
-stages:
-- test
-sast:
-  stage: test
-include:
-- template: Security/SAST.gitlab-ci.yml
+image: docker:stable
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_HOST: tcp://docker:2375
+
+services:
+  - name: docker:dind
+    entrypoint: ["env", "-u", "DOCKER_HOST"]
+    command: ["dockerd-entrypoint.sh"]
+
+# Ran Before Every Script -> Good Practice to Make sure Docker is setup Correctly
+before_script:
+  - docker info
+
+ # List of stages for jobs, and their order of execution
+stages:         
+  - build
+  - static_analysis
+  - test
+  - deploy
+
+# This job runs in the build stage, which runs first.
+build-job:       
+  stage: build
+  image: aymdev/dind-compose
+  before_script:
+    - docker version
+    - apk add --no-cache py-pip
+    - pip install docker-compose
+    - docker-compose version 
+  script:
+    - docker-compose build
+  
+flake8:
+  image: "python:3.9"
+  stage: static_analysis
+  before_script:
+    - python --version
+    - pip --version
+    - pip install -U flake8
+  script:
+    - flake8 --max-line-length=120 backend/src
+
+# TODO: Add in Dockerfile Linter -> https://hadolint.github.io/hadolint/
+
+# TODO: Add in SQL Linter -> https://github.com/joereynolds/sql-lint
+
+unit-test-job:   # This job runs in the test stage.
+  stage: test    # It only starts when the job in the build stage completes successfully.
+  image: aymdev/dind-compose
+  before_script:
+    - docker-compose build --parallel
+    - docker-compose up -d api db
+  script:
+    - docker-compose run --rm test || exit $?

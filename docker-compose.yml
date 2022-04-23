@@ -1,0 +1,31 @@
+version: "3.3" 
+
+# TODO: Add a Service for the Frontend <- This would just make deployments easier in the future
+services:
+  natl_backend_api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - deployment=compose
+    depends_on:
+      - db
+  db:
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=developer
+  test:
+    build:
+      context: ./tests
+      dockerfile: Dockerfile
+    environment:
+      - api_url=http://api:8081/api
+    depends_on:
+      - db
+      - natl_backend_api
