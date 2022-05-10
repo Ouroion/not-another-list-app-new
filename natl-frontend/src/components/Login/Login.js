@@ -12,15 +12,15 @@ class LoginComponent extends React.Component {
     constructor(props) {
         super(props)
         this.login = this.login.bind(this);
-        this.register = this.login.register(this);
+        this.register = this.register.bind(this);
     }
 
     async login() {
         const resp = await fetch(`${config.baseUrl}/user/login`, {
             method: 'POST',
             headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 username: this.props.login.username,
@@ -75,19 +75,22 @@ class LoginComponent extends React.Component {
         return (
             <div className="login-wrapper">
                 <h1>Please Log In</h1>
-                <form>
+                <div>
                     <label>
                         <p>Username</p>
                         <input type="text" onChange={(username) => this.props.setUsername(username.target.value)} />
                     </label>
                     <label>
                         <p>Password</p>
-                        <input type="password" onChange={(password) => this.props.setUsername(password.target.value)} />
+                        <input type="password" onChange={(password) => this.props.setPassword(password.target.value)} />
                     </label>
                     <div>
                         <button type="submit" onClick={() => this.login()}>Submit</button>
                     </div>
-                </form>
+                    <div>
+                        <button type="submit" onClick={() => this.register()}>Register</button>
+                    </div>
+                </div>
             </div>
         )
     }
