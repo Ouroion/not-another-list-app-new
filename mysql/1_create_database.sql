@@ -13,7 +13,6 @@ CREATE TABLE user (
     PRIMARY KEY (id)
 );
 
-
 CREATE TABLE list (
 	id int NOT NULL AUTO_INCREMENT,
     user_id int,

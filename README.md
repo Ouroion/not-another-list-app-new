@@ -17,13 +17,15 @@ TODO: Add a architecture diagram showing how everything is connected
 ## Installation / Getting Started
 1. Install Docker Docker-Compose [docker desktop overview ](https://docs.docker.com/desktop/)
 2. Install Docker-Compose [docker-compose overview](https://docs.docker.com/compose/install/)
-3. To Start the Backend Services Run: 
+3. Install NPM/Node.js [NPM Install Direction](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+4. To Start the Backend Services Run: 
 ```
 $ docker-compose build && docker-compose up db natl_backend_api
 ```
-4. To Start the React Frontend for development run:
+5. To Start the React Frontend for development run:
 ```
 $ cd frontend
+$ npm install
 $ npm run start
 ```
 
@@ -34,4 +36,6 @@ $ npm run start
 ## Roadmap
 TODO: Improve Frontend UX
 TODO: Improve Testing Coverage
+TODO: Add Deploy to CI/CD
+TODO: Add Static Analysis -> See .gitlab-ci.yml TODOs
 
