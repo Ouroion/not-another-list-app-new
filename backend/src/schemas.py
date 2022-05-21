@@ -43,6 +43,7 @@ class User(UserBase):
 class ListBase(LoggedInBase):
     pass
 
+
 class ListGet(ListBase):
     id: Optional[str] = None
 

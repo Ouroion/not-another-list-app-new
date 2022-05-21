@@ -3,8 +3,6 @@ from typing import List
 from sqlalchemy.orm import Session
 import uuid
 
-from sqlalchemy.sql.expression import false
-
 import models
 import schemas
 
@@ -72,7 +70,7 @@ def get_list(db: Session, access_id: str):
 
     if access_id is None:
         raise DefaultException(msg="The Access ID is not specified")
-    
+
     user_id = get_user_by_access_id(db, access_id=access_id).id
     results.extend(db.query(models.List).filter(models.List.user_id == user_id).all())
 
@@ -80,19 +78,19 @@ def get_list(db: Session, access_id: str):
 
 
 # TODO -> Create List Should Check to make sure the list hasn't already been created
-def create_list(db, 
+def create_list(db,
                 access_id: str,
-                name: str, 
+                name: str,
                 description: str,
                 is_done: bool):
 
     if access_id is None:
         raise DefaultException(msg="The Access ID is not specified")
-    
+
     user_id = get_user_by_access_id(db, access_id=access_id).id
 
     db_list = models.List(user_id=user_id,
-                          name=name, 
+                          name=name,
                           description=description,
                           is_done=is_done)
     db.add(db_list)
@@ -101,8 +99,10 @@ def create_list(db,
     return format_list(db, [db_list])
 
 
-# TODO: This should delete by list.id and not by list.name -> rookie shit as you can have multiple lists of the same name
-def delete_list(db: Session, access_id: str, name: str):
+# TODO: This should delete by list.id and not by list.name
+# -> rookie shit as you can have multiple lists of the same name
+def delete_list(db: Session,
+                access_id: str, name: str):
     if access_id is None:
         raise DefaultException(msg="The Access ID is not specified")
 

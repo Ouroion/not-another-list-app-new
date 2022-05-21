@@ -9,7 +9,6 @@ from fastapi import APIRouter, Depends
 import schemas
 import crud
 from database import get_db
-from DefaultException import DefaultException
 
 router = APIRouter(
     prefix="/list",

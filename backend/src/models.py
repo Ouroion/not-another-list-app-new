@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer
-from sqlalchemy.orm import backref, relationship
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import VARCHAR, Boolean
 from database import Base

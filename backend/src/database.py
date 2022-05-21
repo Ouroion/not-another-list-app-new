@@ -50,4 +50,3 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 session = scoped_session(SessionLocal)
 Base = declarative_base()
 Base.query = session.query_property()
-
