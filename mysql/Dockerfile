@@ -1,4 +1,4 @@
-from mysql/mysql-server:latest-aarch64
+from mysql/mysql-server:latest
 
 MAINTAINER newtonmccollum@gmail.com
 
