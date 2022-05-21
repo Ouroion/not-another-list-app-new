@@ -73,14 +73,15 @@ def get_list(db: Session, access_id: str):
     if access_id is None:
         raise DefaultException(msg="The Access ID is not specified")
     
-    user_id = get_user_by_access_id(Session, access_id=access_id).id
+    user_id = get_user_by_access_id(db, access_id=access_id).id
     results.extend(db.query(models.List).filter(models.List.user_id == user_id).all())
 
     return format_list(db, results)
 
 
 # TODO -> Create List Should Check to make sure the list hasn't already been created
-def create_list(db, access_id: str,
+def create_list(db, 
+                access_id: str,
                 name: str, 
                 description: str,
                 is_done: bool):
@@ -88,7 +89,7 @@ def create_list(db, access_id: str,
     if access_id is None:
         raise DefaultException(msg="The Access ID is not specified")
     
-    user_id = get_user_by_access_id(Session, access_id=access_id).id
+    user_id = get_user_by_access_id(db, access_id=access_id).id
 
     db_list = models.List(user_id=user_id,
                           name=name, 
@@ -105,7 +106,7 @@ def delete_list(db: Session, access_id: str, name: str):
     if access_id is None:
         raise DefaultException(msg="The Access ID is not specified")
 
-    user_id = get_user_by_access_id(Session, access_id=access_id).id
+    user_id = get_user_by_access_id(db, access_id=access_id).id
     result = db.query(models.List).filter(models.List.name == name,
                                           models.List.user_id == user_id).delete()
     db.commit()

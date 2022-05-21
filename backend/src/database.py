@@ -3,7 +3,7 @@ import os
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 
 DEPLOYMENT_CONFIG = os.getenv('deployment', 'dev')
 DEPLOYMENT_CONFIG_FILE = 'config/' + DEPLOYMENT_CONFIG + '.config.json'
@@ -27,8 +27,10 @@ def get_db():
     db = None
     try:
         db = SessionLocal()
+        print('Yield Database')
         yield db
     finally:
+        print('Finally - Close Database')
         db.close()
 
 
@@ -45,4 +47,7 @@ engine = create_engine(
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+session = scoped_session(SessionLocal)
 Base = declarative_base()
+Base.query = session.query_property()
+

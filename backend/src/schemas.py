@@ -59,7 +59,6 @@ class ListDelete(ListBase):
 
 class ListReturn(BaseModel):
     id: int
-    user_id: int
     name: str
     description: str
     is_done: bool

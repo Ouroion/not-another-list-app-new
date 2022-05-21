@@ -1,23 +1,25 @@
 import unittest
 import helper
+import json
 
 class ListTestCase(unittest.TestCase):
     def setUp(self):
-        # Create User
+        # Create User w/ List
         helper.create_user(username='unittest1', password='unittest1')
-
-        # Create a list for said User
         helper.lists_create(username='unittest1', password='unittest1', name='test', description='test')
         
+        # Create User w/o List
+        helper.create_user(username='unittest2', password='unittest2')
+
     def test_lists_get_non_empty(self):
         response = helper.lists_get(username='unittest1', password='unittest1')
+        print(json.dumps(response.json(), indent=2))
 
-        assert response.json()[0]['username'] == 'unittest1'
         assert response.json()[0]['name'] == 'test'
         assert response.json()[0]['description'] == 'test'
 
     def test_lists_get_empty(self):
-        response = helper.lists_get(username='unittest1', password='unittest1' )
+        response = helper.lists_get(username='unittest2', password='unittest2' )
         assert response.json() == []
 
     def test_lists_create(self):
@@ -39,9 +41,9 @@ class ListTestCase(unittest.TestCase):
 
 if __name__ == '__main__':
     ltc = ListTestCase()
-    #ltc.setUp()
+    ltc.setUp()
 
-    #ltc.test_lists_get_non_empty()
+    ltc.test_lists_get_non_empty()
     #ltc.test_lists_get_empty()
     #ltc.test_lists_get_by_up_id()
     #ltc.test_lists_get_empty_by_up_id()
