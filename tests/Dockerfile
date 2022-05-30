@@ -1,5 +1,7 @@
 FROM python:3.9
 
+MAINTAINER newtonmccollum@gmail.com
+
 WORKDIR /src
 COPY ./src/ /src
 

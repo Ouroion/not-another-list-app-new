@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 
 // API Reducers
 import thunk from 'redux-thunk';
+import listReducer from '../reducers/listReducer';
 import loginReducer from '../reducers/loginReducer';
 
 // Page Reduces
@@ -13,6 +14,7 @@ import loginReducer from '../reducers/loginReducer';
 const rootReducer = combineReducers(
   {
     login: loginReducer,
+    lists: listReducer
   }
 );
 const configureStore = () => {

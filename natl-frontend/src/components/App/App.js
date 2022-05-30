@@ -26,7 +26,6 @@ class App extends React.Component {
     }
     return (
       <div className="wrapper">
-        <h1>User Logged in</h1>
         <BrowserRouter>
           <Routes>
             <Route exact path='/' element={<Dashboard />} />
