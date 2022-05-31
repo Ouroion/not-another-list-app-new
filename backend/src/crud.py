@@ -102,13 +102,17 @@ def create_list(db,
 # TODO: This should delete by list.id and not by list.name
 # -> rookie shit as you can have multiple lists of the same name
 def delete_list(db: Session,
-                access_id: str, id: str):
+                access_id: str, id: str, name: str):
     if access_id is None:
         raise DefaultException(msg="The Access ID is not specified")
 
     user_id = get_user_by_access_id(db, access_id=access_id).id
-    result = db.query(models.List).filter(models.List.id == id,
-                                          models.List.user_id == user_id).delete()
+    if id is not None:
+        result = db.query(models.List).filter(models.List.id == id,
+                                              models.List.user_id == user_id).delete()
+    elif name is not None:
+        result = db.query(models.List).filter(models.List.name == name,
+                                              models.List.user_id == user_id).delete()
     db.commit()
     return result == 1
 

@@ -6,6 +6,7 @@ class ListTestCase(unittest.TestCase):
     def setUp(self):
         # Create User w/ List
         helper.create_user(username='unittest1', password='unittest1')
+        
         helper.lists_create(username='unittest1', password='unittest1', name='test', description='test')
         
         # Create User w/o List
@@ -28,8 +29,8 @@ class ListTestCase(unittest.TestCase):
         helper.lists_delete(username='unittest1', password='unittest1',name='test2')
 
 
-    #def test_lists_delete(self):
-    #    assert helper.lists_delete(username='unittest1', password='unittest1', name='test').json() == True
+    def test_lists_delete(self):
+        assert helper.lists_delete(username='unittest1', password='unittest1', name='test').json() == True
 
     def tearDown(self):
         # Delete List
