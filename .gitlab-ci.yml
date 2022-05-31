@@ -1,10 +1,13 @@
+# CI/CD Default Base Image -> A pipeline step starts in this image
 image: docker:stable
 
+# Variables to allow for Docker in Docker (so we can build containers)
 variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
   DOCKER_HOST: tcp://docker:2375
 
+# CI/CD Service definition -> More Requirements for Docker in Docker
 services:
   - name: docker:dind
     entrypoint: ["env", "-u", "DOCKER_HOST"]
@@ -22,36 +25,36 @@ stages:
   - deploy
 
 # This job runs in the build stage, which runs first.
-build-job:       
-  stage: build
-  image: aymdev/dind-compose
-  before_script:
+build-job:  # Name  
+  stage: build # Stage
+  image: aymdev/dind-compose # Override the Base Image so we can have Compose
+  before_script: # Scripts that run first -> typically "setup/verify everything is started correctly"
     - docker version
     - apk add --no-cache py-pip
     - pip install docker-compose
     - docker-compose version 
-  script:
+  script: # Main part of the build-stage
     - docker-compose build
   
-flake8:
-  image: "python:3.9"
-  stage: static_analysis
-  before_script:
+flake8: # Name
+  stage: static_analysis # Stage
+  image: "python:3.9" # Override the Base Image
+  before_script: # Before Script to make sure that flake8 linter is installed
     - python --version
     - pip --version
     - pip install -U flake8
   script:
-    - flake8 --max-line-length=120 backend/src
+    - flake8 --max-line-length=120 backend/src # Flake8 Lint Test
 
 # TODO: Add in Dockerfile Linter -> https://hadolint.github.io/hadolint/
 
 # TODO: Add in SQL Linter -> https://github.com/joereynolds/sql-lint
 
 unit-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully.
-  image: aymdev/dind-compose
-  before_script:
+  stage: test    # Stage 
+  image: aymdev/dind-compose # Override the Base Image
+  before_script: # Before script to make sure that everything is properly built before running tests (db, backend, frontend, test container)
     - docker-compose build --parallel
     - docker-compose up -d natl_backend_api db
   script:
-    - docker-compose run --rm test || exit $?
+    - docker-compose run --rm test || exit $? # Run the Tests and pass the docker exit code from the container back to the script to repeat
