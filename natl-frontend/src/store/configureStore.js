@@ -4,6 +4,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import listReducer from '../reducers/listReducer';
 import loginReducer from '../reducers/loginReducer';
+import taskReducer from '../reducers/taskReducer';
 
 // Page Reduces
 
@@ -14,7 +15,8 @@ import loginReducer from '../reducers/loginReducer';
 const rootReducer = combineReducers(
   {
     login: loginReducer,
-    lists: listReducer
+    lists: listReducer,
+    tasks: taskReducer
   }
 );
 const configureStore = () => {

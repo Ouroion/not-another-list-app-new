@@ -31,7 +31,7 @@ class LoginComponent extends React.Component {
         if (body.access_id !== undefined) {
             this.props.loginUser(this.props.login.username, body.access_id);
         } else {
-            alert('Invalid Registration', body.errorMsg, [
+            alert('Invalid Login', body.errorMsg, [
                 {
                     text: 'Cancel',
                     onPress: () => console.log('Cancel Pressed'),

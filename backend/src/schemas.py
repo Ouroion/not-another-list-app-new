@@ -55,7 +55,7 @@ class ListCreate(ListBase):
 
 
 class ListDelete(ListBase):
-    name: str
+    id: str
 
 
 class ListReturn(BaseModel):

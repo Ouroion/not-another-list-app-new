@@ -43,4 +43,4 @@ def add_list(list_create: schemas.ListCreate, db: Session = Depends(get_db)):
 def delete_list(list_delete: schemas.ListDelete, db: Session = Depends(get_db)):
     return crud.delete_list(db,
                             access_id=list_delete.access_id,
-                            name=list_delete.name)
+                            id=list_delete.id)
