@@ -17,17 +17,11 @@ TODO: Add a architecture diagram showing how everything is connected
 ## Installation / Getting Started
 1. Install Docker Docker-Compose [docker desktop overview ](https://docs.docker.com/desktop/)
 2. Install Docker-Compose [docker-compose overview](https://docs.docker.com/compose/install/)
-3. Install NPM/Node.js [NPM Install Direction](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
-4. To Start the Backend Services Run: 
+3. To Start the app, run: 
 ```
-$ docker-compose build && docker-compose up db natl_backend_api
+$ docker-compose build && docker-compose up
 ```
-5. To Start the React Frontend for development run:
-```
-$ cd frontend
-$ npm install
-$ npm run start
-```
+4. The app should be running at [http://localhost:3000/](http://localhost:3000/) 
 
 ## Usage
 
