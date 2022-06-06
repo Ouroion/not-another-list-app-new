@@ -1,0 +1,7 @@
+{
+    "databaseName": "natl",
+    "databaseIp": "localhost",
+    "databasePort": 3306,
+    "databaseUsername": "dev",
+    "databasePassword": "developer"
+}
