@@ -28,6 +28,14 @@ jobs:
       - name: Build containers
         run: docker-compose build
 
+      - name: Scan the built image
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'image'
+          image-ref: 'not-another-list-app-new:${{ github.sha }}'
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
+
   # Static analysis job - runs after build
   flake8:
     runs-on: ubuntu-latest
@@ -106,28 +114,28 @@ jobs:
           compose-file: "docker-compose.yml"
           skip-exited: "true"
           skip-no-healthcheck: "true"
-  trivy:
-    name: trivy vulnerability scanner
-    needs: build-job
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  #trivy:
+  #  name: trivy vulnerability scanner
+  #  needs: build-job
+  #  runs-on: ubuntu-24.04
+  #  steps:
+  #    - name: Checkout code
+  #      uses: actions/checkout@v4
 
-      - name: Manual Trivy Setup
-        uses: aquasecurity/setup-trivy@v0.2.0
-        with:
-          cache: true
-          version: v0.65.0
+  #    - name: Manual Trivy Setup
+  #      uses: aquasecurity/setup-trivy@v0.2.0
+  #      with:
+  #        cache: true
+  #        version: v0.65.0
 
-      - name: Run Trivy vulnerability scanner in repo mode
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          format: 'table'
-          output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH,MEDIUM'
-          skip-setup-trivy: true
+  #    - name: Run Trivy vulnerability scanner in repo mode
+  #      uses: aquasecurity/trivy-action@master
+  #      with:
+  #        scan-type: 'image'
+  #        format: 'table'
+  #        output: 'trivy-results.sarif'
+  #        severity: 'CRITICAL,HIGH,MEDIUM'
+  #        skip-setup-trivy: true
 
   # Deploy stage placeholder
   # deploy-job:
