@@ -84,7 +84,7 @@ jobs:
         run: docker-compose down
   healthcheck:
     runs-on: ubuntu-latest
-    needs: unit-test-job
+    needs: build-job
     steps:
       - uses: actions/checkout@v3
 
