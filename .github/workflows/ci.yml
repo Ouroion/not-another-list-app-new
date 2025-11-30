@@ -127,7 +127,7 @@ jobs:
           ignore-unfixed: true
           format: 'table'
           output: 'trivy-results.sarif'
-          severity: 'CRITICAL'
+          severity: 'CRITICAL,HIGH,MEDIUM'
           skip-setup-trivy: true
 
   # Deploy stage placeholder
