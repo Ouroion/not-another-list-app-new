@@ -124,7 +124,6 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
-          ignore-unfixed: true
           format: 'table'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH,MEDIUM'
