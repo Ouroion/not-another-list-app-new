@@ -32,7 +32,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'image'
-          image-ref: 'natl_backend_api:${{ github.sha }}'
+          image-ref: 'natl_backend_api:latest'
           format: 'table'
           severity: 'CRITICAL,HIGH'
 
