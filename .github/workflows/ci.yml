@@ -28,15 +28,14 @@ jobs:
       - name: Build containers
         run: docker-compose build
 
-      - name: Tag image for scanning
-        run: |
-          docker tag image:latest image:${{ github.sha }}
+      - name: List built images
+        run: docker images | grep natl_backend_api
 
       - name: Scan the built image
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'image'
-          image-ref: 'image:latest'
+          image-ref: 'natl_backend_api:latest'
           format: 'table'
           severity: 'CRITICAL,HIGH'
 
