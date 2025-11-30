@@ -17,7 +17,7 @@ jobs:
       - name: Build image (no push)
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: ./natl-frontend
           file: ./natl-frontend/Dockerfile
           tags: not-another-list-app-ci:latest
           load: true
