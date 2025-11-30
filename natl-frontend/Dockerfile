@@ -7,9 +7,7 @@ COPY package-lock.json package-lock.json
 
 RUN npm install
 
-#COPY src src
-#COPY public public
-
-COPY natl-frontend .
+COPY src src
+COPY public public
 
 CMD ["bash", "-c", "npm run-script start" ]
