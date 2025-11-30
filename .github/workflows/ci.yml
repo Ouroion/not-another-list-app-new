@@ -6,8 +6,6 @@ on:
   pull_request:
     branches: [ main, develop ]
 
-permissions:
-    security-events: read
 
 jobs:
   # Build job - runs first
@@ -109,7 +107,7 @@ jobs:
           skip-exited: "true"
           skip-no-healthcheck: "true"
   trivy:
-    name: Trivy Vulnerability Scanner
+    name: trivy vulnerability scanner
     needs: build-job
     runs-on: ubuntu-24.04
     steps:
@@ -127,15 +125,11 @@ jobs:
         with:
           scan-type: 'fs'
           ignore-unfixed: true
-          format: 'sarif'
+          format: 'table'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL'
           skip-setup-trivy: true
 
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: 'trivy-results.sarif'
   # Deploy stage placeholder
   # deploy-job:
   #   runs-on: ubuntu-latest
