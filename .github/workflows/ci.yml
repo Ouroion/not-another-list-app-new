@@ -4,7 +4,7 @@ on:
   push:
     branches: ["main"]
 jobs:
-  build:
+  build-frontend:
     name: Build Docker Frontend
     runs-on: ubuntu-latest
     steps:
@@ -19,6 +19,32 @@ jobs:
         with:
           context: ./natl-frontend
           file: ./natl-frontend/Dockerfile
+          tags: not-another-list-app-ci:latest
+          load: true
+
+      - name: Save image as artifact
+        run: docker save not-another-list-app-ci:latest -o image.tar
+
+      - name: Upload image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-image
+          path: image.tar
+  build-backend:
+    name: Build Docker Backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
           tags: not-another-list-app-ci:latest
           load: true
 
