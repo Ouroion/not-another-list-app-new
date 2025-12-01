@@ -35,7 +35,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'image'
-          image-ref: 'not-another-list-app-new-natl_backend_api'
+          image-ref: 'not-another-list-app-new_natl_backend_api'
           format: 'table'
           severity: 'CRITICAL,HIGH'
 
