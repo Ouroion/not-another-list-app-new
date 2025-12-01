@@ -63,6 +63,26 @@ jobs:
           format: 'table'
           severity: 'CRITICAL,HIGH'
 
+      - name: Syft - natl_backend_api
+        uses: anchore/sbom-action@v0
+        with:
+          image: not-another-list-app-new_natl_backend_api
+
+      - name: Syft - frontend
+        uses: anchore/sbom-action@v0
+        with:
+          image: not-another-list-app-new_frontend
+
+      - name: Syft - db
+        uses: anchore/sbom-action@v0
+        with:
+          image: not-another-list-app-new_db
+
+      - name: Syft - test
+        uses: anchore/sbom-action@v0
+        with:
+          image: not-another-list-app-new_test
+
   # Static analysis job - runs after build
   flake8:
     runs-on: ubuntu-latest
