@@ -12,6 +12,11 @@ services:
       - deployment=compose
     depends_on:
       - db
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
   db:
     build:
       context: ./mysql
@@ -20,12 +25,22 @@ services:
       - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=developer
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3306/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
   frontend:
     build:
       context: ./natl-frontend
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
   test:
     build:
       context: ./tests
