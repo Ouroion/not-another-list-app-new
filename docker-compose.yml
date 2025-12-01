@@ -12,11 +12,6 @@ services:
       - deployment=compose
     depends_on:
       - db
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8081" ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
   db:
     build:
       context: ./mysql
