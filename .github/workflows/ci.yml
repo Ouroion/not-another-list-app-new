@@ -30,7 +30,11 @@ jobs:
 
       - name: Save Docker images
         run: |
-          docker save -o images.tar $(docker-compose config --services | xargs -I {} docker-compose images -q {})
+          docker save -o images.tar \
+           not-another-list-app-new_natl_backend_api \
+            not-another-list-app-new_frontend \
+            not-another-list-app-new_db \
+            not-another-list-app-new_test
 
       - name: Upload images as artifact
         uses: actions/upload-artifact@v4
