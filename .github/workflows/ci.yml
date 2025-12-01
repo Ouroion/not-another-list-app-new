@@ -74,6 +74,36 @@ jobs:
       - name: List built images
         run: docker images
 
+
+  trivy:
+    runs-on: ubuntu-latest
+    needs: build-job
+
+    steps:
+      - name: load backend image
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-image
+      - run: docker load -i backend.tar
+
+      - name: load frontend image
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-image
+      - run: docker load -i frontend.tar
+
+      - name: load db image
+        uses: actions/download-artifact@v4
+        with:
+          name: db-image
+      - run: docker load -i db.tar
+
+      - name: load test image
+        uses: actions/download-artifact@v4
+        with:
+          name: test-image
+      - run: docker load -i test.tar
+
       - name: Trivy - natl_backend_api
         uses: aquasecurity/trivy-action@master
         with:
@@ -85,10 +115,10 @@ jobs:
       - name: Trivy - frontend
         uses: aquasecurity/trivy-action@master
         with:
-         scan-type: 'image'
-         image-ref: 'not-another-list-app-new_frontend'
-         format: 'table'
-         severity: 'CRITICAL,HIGH'
+          scan-type: 'image'
+          image-ref: 'not-another-list-app-new_frontend'
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
 
       - name: Trivy - db
         uses: aquasecurity/trivy-action@master
@@ -105,6 +135,35 @@ jobs:
           image-ref: 'not-another-list-app-new_test'
           format: 'table'
           severity: 'CRITICAL,HIGH'
+
+  syft:
+    runs-on: ubuntu-latest
+    needs: build-job
+
+    steps:
+      - name: load backend image
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-image
+      - run: docker load -i backend.tar
+
+      - name: load frontend image
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-image
+      - run: docker load -i frontend.tar
+
+      - name: load db image
+        uses: actions/download-artifact@v4
+        with:
+          name: db-image
+      - run: docker load -i db.tar
+
+      - name: load test image
+        uses: actions/download-artifact@v4
+        with:
+          name: test-image
+      - run: docker load -i test.tar
 
       - name: Syft - natl_backend_api
         uses: anchore/sbom-action@v0
@@ -125,7 +184,6 @@ jobs:
         uses: anchore/sbom-action@v0
         with:
           image: not-another-list-app-new_test
-
 
   # Static analysis job - runs after build
   flake8:
