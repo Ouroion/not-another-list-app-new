@@ -15,6 +15,7 @@ services:
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://natl_backend_api:8081/api" ]
       interval: 10s
+
       timeout: 5s
       retries: 3
   db:

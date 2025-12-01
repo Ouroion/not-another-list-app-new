@@ -28,6 +28,17 @@ jobs:
       - name: Build containers
         run: docker-compose build
 
+      - name: Save Docker images
+        run: |
+          docker save -o images.tar $(docker-compose config --services | xargs -I {} docker-compose images -q {})
+
+      - name: Upload images as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-images
+          path: images.tar
+          retention-days: 1
+
       - name: List built images
         run: docker images
 
