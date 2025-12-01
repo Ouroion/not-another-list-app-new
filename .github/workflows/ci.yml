@@ -31,11 +31,35 @@ jobs:
       - name: List built images
         run: docker images
 
-      - name: Scan the built image
+      - name: Trivy - natl_backend_api
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'image'
           image-ref: 'not-another-list-app-new_natl_backend_api'
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Trivy - frontend
+        uses: aquasecurity/trivy-action@master
+        with:
+         scan-type: 'image'
+         image-ref: 'not-another-list-app-new_frontend'
+         format: 'table'
+         severity: 'CRITICAL,HIGH'
+
+      - name: Trivy - db
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'image'
+          image-ref: 'not-another-list-app-new_db'
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Trivy - test
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'image'
+          image-ref: 'not-another-list-app-new_test'
           format: 'table'
           severity: 'CRITICAL,HIGH'
 
