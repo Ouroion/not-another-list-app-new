@@ -36,6 +36,9 @@ jobs:
     needs: build-job
 
     steps:
+      - name: Download all image artifacts
+        uses: actions/download-artifact@v5
+
       - name: Trivy - natl_backend_api
         uses: aquasecurity/trivy-action@master
         with:
@@ -72,6 +75,9 @@ jobs:
     needs: build-job
 
     steps:
+      - name: Download all image artifacts
+        uses: actions/download-artifact@v5
+
       - name: Syft - natl_backend_api
         uses: anchore/sbom-action@v0
         with:
