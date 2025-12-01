@@ -31,6 +31,11 @@ jobs:
       - name: List built images
         run: docker images
 
+  trivy:
+    runs-on: ubuntu-latest
+    needs: build-job
+
+    steps:
       - name: Trivy - natl_backend_api
         uses: aquasecurity/trivy-action@master
         with:
@@ -42,10 +47,10 @@ jobs:
       - name: Trivy - frontend
         uses: aquasecurity/trivy-action@master
         with:
-         scan-type: 'image'
-         image-ref: 'not-another-list-app-new_frontend'
-         format: 'table'
-         severity: 'CRITICAL,HIGH'
+          scan-type: 'image'
+          image-ref: 'not-another-list-app-new_frontend'
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
 
       - name: Trivy - db
         uses: aquasecurity/trivy-action@master
@@ -62,7 +67,11 @@ jobs:
           image-ref: 'not-another-list-app-new_test'
           format: 'table'
           severity: 'CRITICAL,HIGH'
+  syft:
+    runs-on: ubuntu-latest
+    needs: build-job
 
+    steps:
       - name: Syft - natl_backend_api
         uses: anchore/sbom-action@v0
         with:
