@@ -29,13 +29,13 @@ jobs:
         run: docker-compose build
 
       - name: List built images
-        run: docker images | grep natl_backend_api
+        run: docker images
 
       - name: Scan the built image
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'image'
-          image-ref: 'natl_backend_api:latest'
+          image-ref: 'not-another-list-app-new-natl_backend_api:latest'
           format: 'table'
           severity: 'CRITICAL,HIGH'
 
