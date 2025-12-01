@@ -33,7 +33,7 @@ jobs:
           docker save -o images.tar $(docker-compose config --services | xargs -I {} docker-compose images -q {})
 
       - name: Upload images as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: docker-images
           path: images.tar
