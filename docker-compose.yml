@@ -46,7 +46,7 @@ services:
       - db
       - natl_backend_api
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:3000" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/api" ]
       interval: 10s
       timeout: 5s
       retries: 3
