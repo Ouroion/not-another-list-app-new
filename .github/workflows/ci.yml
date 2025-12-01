@@ -28,19 +28,47 @@ jobs:
       - name: Build containers
         run: docker-compose build
 
-      - name: Save Docker images
+      - name: Save backend image
         run: |
-          docker save -o images.tar \
-           not-another-list-app-new_natl_backend_api \
-            not-another-list-app-new_frontend \
-            not-another-list-app-new_db \
-            not-another-list-app-new_test
+          docker save -o backend.tar not-another-list-app-new_natl_backend_api
+      - name: Save frontend image
+        run: |
+          docker save -o frontend.tar not-another-list-app-new_frontend
 
-      - name: Upload images as artifact
+      - name: Save db image
+        run: |
+          docker save -o db.tar not-another-list-app-new_db
+
+      - name: Save test image
+        run: |
+          docker save -o test.tar not-another-list-app-new_test
+
+      - name: Upload backend artifact
         uses: actions/upload-artifact@v4
         with:
-          name: docker-images
-          path: images.tar
+          name: backend-image
+          path: backend.tar
+          retention-days: 1
+
+      - name: Upload frontend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-image
+          path: frontend.tar
+          retention-days: 1
+
+      - name: Upload db artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-image
+          path: db.tar
+          retention-days: 1
+
+      - name: Upload test artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-image
+          path: test.tar
           retention-days: 1
 
       - name: List built images
